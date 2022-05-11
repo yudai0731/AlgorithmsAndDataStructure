@@ -8,7 +8,7 @@ void print_array(int A[],int N){
     printf("\n");
 }
 
-void insection_sort(int A[],int N){
+void insertion_sort(int A[],int N){
     /* 挿入ソート(昇順) A:数字の配列,N:配列長*/
     int i,j,v;
     // i : 未整列の位置
@@ -31,6 +31,6 @@ int main(void){
     int N=6;
     int A[6] = {3,5,2,7,1,8};
     print_array(A,N);
-    insection_sort(A,N);
+    insertion_sort(A,N);
     return 0;
 }

@@ -9,6 +9,7 @@ void print_array(int A[],int N){
 }
 
 void bubble_sort(int A[],int N){
+    /* バブルソートを行う関数 */
     int j,tmp;
     int flg=1;
     while(flg){
