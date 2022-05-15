@@ -6,9 +6,18 @@
 typedef struct{
     int S[STACK_LEN]; // stack
     int sp; // stack pointer
-}stack;
+}Stack;
 
-int print_stack(stack *s){
+void init_stack(Stack *s){
+    int i;
+    s->sp=0;
+    for(i=0;i<STACK_LEN;i++){
+        s->S[i]=0;
+    }
+    printf("stack initialized\n");
+}
+
+int print_stack(Stack *s){
     int i;
     printf("stack pointer : %d\n",s->sp);
     for(i=0;i<s->sp;i++){
@@ -18,7 +27,7 @@ int print_stack(stack *s){
     printf("\n");
 }
 
-int is_empty(stack *s){
+int is_empty(Stack *s){
     /* stackが空か確認する関数 */
     if (s->sp == 0){
         return 1; // 空のとき
@@ -27,7 +36,7 @@ int is_empty(stack *s){
     }
 }
 
-int is_full(stack *s){
+int is_full(Stack *s){
     /* stackが満杯か確認する関数*/
     if(s->sp == STACK_LEN){
         return 1; // 満杯のとき
@@ -36,7 +45,7 @@ int is_full(stack *s){
     }
 }
 
-int push(stack *s,int num){
+int push(Stack *s,int num){
     /* stack s に値をpushする関数 返り値 成功1, 失敗0*/
     if(is_full(s)){
         return 0;
@@ -48,7 +57,7 @@ int push(stack *s,int num){
 }
 
 // 数値を扱うからstackが空のときの処理を書いていない
-int pop(stack *s){
+int pop(Stack *s){
     /* stack sから値をpopする関数 返り値 通常はpopした値*/ 
     int pop_val;
     if(is_empty(s)){
@@ -63,11 +72,11 @@ int pop(stack *s){
 }
 
 int main(void){
-    stack Stack;
+    Stack s;
     int i,pop_val1,pop_val2;
     char str[STR_MAX]; // 入力文字列
-    Stack.sp=0; // init stack pointer
-    printf("stack initialized\n");
+    // init stack
+    init_stack(&s);
 
     // input 
     printf("input reverse polish notation\n");
@@ -78,30 +87,30 @@ int main(void){
     while(str[i]!='\0'){
         switch(str[i]){
             case '+':
-            pop_val1 = pop(&Stack);
-            pop_val2 = pop(&Stack);
-            push(&Stack, pop_val1+pop_val2);
+            pop_val1 = pop(&s);
+            pop_val2 = pop(&s);
+            push(&s, pop_val1+pop_val2);
             break;
 
             case '-':
-            pop_val1 = pop(&Stack);
-            pop_val2 = pop(&Stack);
-            push(&Stack, pop_val2-pop_val1);
+            pop_val1 = pop(&s);
+            pop_val2 = pop(&s);
+            push(&s, pop_val2-pop_val1);
             break;
 
             case '*':
-            pop_val1 = pop(&Stack);
-            pop_val2 = pop(&Stack);
-            push(&Stack, pop_val1*pop_val2);
+            pop_val1 = pop(&s);
+            pop_val2 = pop(&s);
+            push(&s, pop_val1*pop_val2);
             break;
 
             default: //number
-            push(&Stack,str[i]-'0');
+            push(&s,str[i]-'0');
         }
         i++;
-        //print_stack(&Stack);
+        //print_stack(&s);
     }
-    printf("result = %d\n",pop(&Stack));
+    printf("result = %d\n",pop(&s));
 
     return 0;
 }
